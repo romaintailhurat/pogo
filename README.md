@@ -1,4 +1,4 @@
-# pogo - Pogues command line
+# pogo 👨‍🎤 - Pogues command line 
 
 Interact with [Pogues](https://github.com/InseeFr/Pogues) using a command line.
 
@@ -35,8 +35,8 @@ Follow https://clig.dev/
 
 ## Dev
 
-go run .
+`go run .`
 
-go run . <command>
+`go run . <command>`
 
-go build .
+`go build .`
