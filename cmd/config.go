@@ -12,8 +12,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type Env struct {
+	id  string
+	url string
+}
+
 type Config struct {
-	envs string
+	envs []Env
 }
 
 // config command
@@ -39,9 +44,17 @@ You will then be able to override it.
 		file, err := os.Open(userHomeDir + "/.pog/config.json")
 		if errors.Is(err, os.ErrNotExist) {
 			fmt.Println("No config file, using defaults")
-			fmt.Println("  To create a config file, use pog config create (WIP)")
 		}
 		defer file.Close()
+
+		baseEnv := Env{id: "kube", url: "https://pogues.kube.developpement.insee.fr/"}
+		defaultConfig := Config{envs: []Env{baseEnv}}
+
+		for _, env := range defaultConfig.envs {
+			msg := fmt.Sprintf("%s → %s", env.id, env.url)
+			fmt.Println(msg)
+		}
+
 	},
 }
 
