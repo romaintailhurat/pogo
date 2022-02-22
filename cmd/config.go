@@ -10,16 +10,9 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+
+	"github.com/romaintailhurat/pogo/types"
 )
-
-type Env struct {
-	id  string
-	url string
-}
-
-type Config struct {
-	envs []Env
-}
 
 // config command
 var configCmd = &cobra.Command{
@@ -47,11 +40,10 @@ You will then be able to override it.
 		}
 		defer file.Close()
 
-		baseEnv := Env{id: "kube", url: "https://pogues.kube.developpement.insee.fr/"}
-		defaultConfig := Config{envs: []Env{baseEnv}}
+		config := types.GetConf()
 
-		for _, env := range defaultConfig.envs {
-			msg := fmt.Sprintf("%s → %s", env.id, env.url)
+		for _, env := range config.Envs {
+			msg := fmt.Sprintf("%s → %s", env.Id, env.Url)
 			fmt.Println(msg)
 		}
 
