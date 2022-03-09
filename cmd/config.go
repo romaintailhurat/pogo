@@ -5,8 +5,10 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -50,6 +52,28 @@ You will then be able to override it.
 	},
 }
 
+var createCmd = &cobra.Command{
+	Use:   "create",
+	Short: "Create a config file",
+	Long:  "Create a config file",
+	Run: func(cmd *cobra.Command, args []string) {
+		userHomeDir, err := os.UserHomeDir()
+		if err != nil {
+			panic(err)
+		}
+		fileLocation := userHomeDir + "/.pog/config.json"
+		fmt.Println("Creating config file: " + fileLocation)
+		j, err := json.Marshal(types.GetConf())
+
+		if err != nil {
+			panic(err)
+		}
+
+		ioutil.WriteFile("test.json", j, 0755)
+	},
+}
+
 func init() {
+	configCmd.AddCommand(createCmd)
 	rootCmd.AddCommand(configCmd)
 }

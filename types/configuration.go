@@ -1,5 +1,7 @@
 package types
 
+import "errors"
+
 type Env struct {
 	Id  string
 	Url string
@@ -14,4 +16,13 @@ func GetConf() Config {
 	baseEnv := Env{Id: "kube", Url: "https://pogues-back-office.dev.insee.io/swagger-ui/dist/"}
 	defaultConf := Config{Envs: []Env{baseEnv}}
 	return defaultConf
+}
+
+func CreateConf() (string, error) {
+
+	if false {
+		return "", errors.New("cannot create config file")
+	}
+
+	return "Configuration created", nil
 }
