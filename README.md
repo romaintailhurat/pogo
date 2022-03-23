@@ -27,7 +27,7 @@ To do:
     - [ ] Move a questionnaire from one env to another
 - [ ] Config
     - [X] Defaults
-    - [ ] Custom config
+    - [X] Custom config
 
 ## Principles
 
