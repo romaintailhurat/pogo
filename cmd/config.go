@@ -36,13 +36,17 @@ You will then be able to override it.
 		if err != nil {
 			panic(err)
 		}
-		file, err := os.Open(userHomeDir + "/.pog/config.json")
+		file, err := ioutil.ReadFile(userHomeDir + "/.pog/config.json")
+
+		var config types.Config
+
 		if errors.Is(err, os.ErrNotExist) {
 			fmt.Println("No config file, using defaults")
+			config = types.GetConf()
+		} else {
+			fmt.Println("Using custom conf file")
+			json.Unmarshal([]byte(file), &config)
 		}
-		defer file.Close()
-
-		config := types.GetConf()
 
 		for _, env := range config.Envs {
 			msg := fmt.Sprintf("%s → %s", env.Id, env.Url)
@@ -63,13 +67,33 @@ var createCmd = &cobra.Command{
 		}
 		fileLocation := userHomeDir + "/.pog/config.json"
 		fmt.Println("Creating config file: " + fileLocation)
+
+		os.MkdirAll(userHomeDir+"/.pog/", os.ModePerm)
+
+		f, err := os.Create(fileLocation)
+
+		if err != nil {
+			panic(err)
+		}
+
 		j, err := json.Marshal(types.GetConf())
 
 		if err != nil {
 			panic(err)
 		}
 
-		ioutil.WriteFile("test.json", j, 0755)
+		lines, err := f.Write(j)
+
+		if err != nil {
+			f.Close()
+			panic(err)
+		}
+
+		fmt.Sprintln(lines, " lines written to file")
+
+		f.Close()
+
+		//ioutil.WriteFile("test.json", j, 0755)
 	},
 }
 
